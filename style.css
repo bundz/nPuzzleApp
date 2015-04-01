@@ -1,0 +1,19 @@
+body {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+
+table {
+  margin: auto;
+  background-color: green;    
+  border-radius: 5px;
+  width: 250px;
+  height: 250px;
+}
+
+td {
+ background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
