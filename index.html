@@ -9,16 +9,24 @@
   
   <body>
     <h1 id="title">n-Puzzle</h1>
-    <div>
+    <div id="generateDiv">
       <input type="text" id="sizeInput" /> 
       <button id="generateButton">Generate</button> 
+      <button id="randomize">Randomize</button>
     </div>
     
     <table id="puzzle">
       
     </table>
     
-    <button id="randomize">Randomize</button>
+    <select id="searchSelector">
+      <option value="bfs">Breadth First Search</option>
+      <option value="dfs">Depth First Search</option>
+      <option value="idfs">Iterative Depth First Search</option>
+    </select>   
+    
+    <button id="goButton">GO</button>
+    
     <button id="breadthFirst">Breadth First Search</button>
     <button id="depthFirst">Depth First Search</button>
     <button id="iterative">Iterative Depth First Search</button>

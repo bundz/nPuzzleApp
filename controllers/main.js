@@ -7,6 +7,7 @@ var MainController = function (view, model) {
   this.view.breadthFirstButton.onclick = this.breadthFirstSearch.bind(this);
   this.view.depthFirstButton.onclick = this.depthFirstSearch.bind(this);
   this.view.iterativeButton.onclick = this.itarativeDepthFirst.bind(this);
+  this.view.goButton.onclick = this.doSearch.bind(this);
   
   this.model = model;
   
@@ -19,8 +20,6 @@ MainController.prototype.generatePuzzle = function () {
   this.addPieceClickEvents();
   console.log(this.view.puzzle.rows);
   
-  
-  
 };
 
 MainController.prototype.randomizePuzzle = function () {
@@ -31,28 +30,30 @@ MainController.prototype.randomizePuzzle = function () {
   
 };
 
-MainController.prototype.breadthFirstSearch = function () {
+MainController.prototype.doSearch = function (ev) {
   
-  var result = this.model.breadthFirstSearch();
+  
+  var result;
+  
+  switch (this.view.searchSelector.value) {
+    
+    case "bfs":
+      result = this.model.breadthFirstSearch();
+      break;
+    case "dfs":
+      result = this.model.depthFirstSearch();
+      break;
+    case "idfs":
+      result = this.model.iterativeDepthFirst();
+    default:
+      break;
+  }
+
   
   this.view.showResult(result);
+      
 };
 
-MainController.prototype.depthFirstSearch = function () {
-  
-  var result = this.model.depthFirstSearch();
-  
-  this.view.showResult(result);
-};
-
-MainController.prototype.itarativeDepthFirst = function () {
-  
-  var result = this.model.iterativeDepthFirst();
-  
-  console.log(result);
-  
-  this.view.showResult(result);
-};
 
 MainController.prototype.pieceClicked = function (ev) {
   var cellPoint = getCellPoint(ev.target.innerText, this.model.puzzle.state.matrix);

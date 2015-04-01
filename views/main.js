@@ -11,6 +11,8 @@ var MainView = function (document) {
   this.depthFirstButton = document.getElementById("depthFirst");
   this.breadthFirstButton = document.getElementById("breadthFirst");
   this.iterativeButton = document.getElementById("iterative");
+  this.goButton = document.getElementById("goButton");
+  this.searchSelector = document.getElementById("searchSelector");
   
 };
 
