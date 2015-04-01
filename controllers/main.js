@@ -4,9 +4,6 @@ var MainController = function (view, model) {
   this.view = view;
   this.view.generateButton.onclick = this.generatePuzzle.bind(this);
   this.view.randomizeButton.onclick = this.randomizePuzzle.bind(this);
-  this.view.breadthFirstButton.onclick = this.breadthFirstSearch.bind(this);
-  this.view.depthFirstButton.onclick = this.depthFirstSearch.bind(this);
-  this.view.iterativeButton.onclick = this.itarativeDepthFirst.bind(this);
   this.view.goButton.onclick = this.doSearch.bind(this);
   
   this.model = model;
@@ -49,7 +46,6 @@ MainController.prototype.doSearch = function (ev) {
       break;
   }
 
-  
   this.view.showResult(result);
       
 };
