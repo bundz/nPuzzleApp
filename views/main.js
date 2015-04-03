@@ -8,11 +8,9 @@ var MainView = function (document) {
   this.sizeInput = document.getElementById("sizeInput");
   this.puzzle = document.getElementById("puzzle");
   this.randomizeButton = document.getElementById("randomize");
-  this.depthFirstButton = document.getElementById("depthFirst");
-  this.breadthFirstButton = document.getElementById("breadthFirst");
-  this.iterativeButton = document.getElementById("iterative");
   this.goButton = document.getElementById("goButton");
   this.searchSelector = document.getElementById("searchSelector");
+  this.logTable = document.getElementById("logTable");
   
 };
 
@@ -38,6 +36,7 @@ MainView.prototype.showPuzzle = function (puzzle) {
   
 };
 
+
 MainView.prototype.erasePuzzleRows = function () {
   
   var length = this.puzzle.rows.length;
@@ -55,10 +54,6 @@ MainView.prototype.showResult = function (obj) {
   this.result = obj.result;
   this.result.push(obj.endState);
   
-  console.log(obj);
-  
-//  this.empty = this.result.shift().empty;
-  
   var move = function () {
     
     if(this.result.length == 0) {
@@ -73,10 +68,7 @@ MainView.prototype.showResult = function (obj) {
         
         
         this.puzzle.rows[i].cells[j].innerHTML = state.matrix[i][j];  
-        
-        
-//        this.puzzle.rows[state.empty.x].cells[state.empty.y].removeAttribute("style", "background-color: green;  ");
-        
+      
         if(this.puzzle.rows[i].cells[j].innerHTML == "") {
           
           console.log(this.puzzle.rows[i].cells[j]);
@@ -92,36 +84,14 @@ MainView.prototype.showResult = function (obj) {
     
   }
   
-    
-    
-//    console.log(state.matrix[0].toString(),state.matrix[1].toString(),state.matrix[2].toString(), "move->", state.movement, "state->",state);
-//    
-//    var empty = this.empty;
-//    
-//    switch(state.movement) {
-//     
-//        case "u":
-//          this.swap(empty, { x: empty.x - 1, y: empty.y});
-//          break;
-//        case "l":
-//          this.swap(empty, { x: empty.x, y: empty.y - 1});
-//          break;
-//        case "d":
-//          this.swap(empty, { x: empty.x + 1, y: empty.y});
-//          break;
-//        case "r":
-//          this.swap(empty, { x: empty.x, y: empty.y + 1});
-//          break;
-//        
-//    }
-//    
-//    this.empty = state.empty;
     setTimeout(move.bind(this), 1000);
     
   };
   
   
   setTimeout(move.bind(this), 1000);
+  
+  this.addResultToLog(obj.algorithm, obj.result.length, obj.maxStackLength, obj.initialState);
 
 };
 
@@ -141,6 +111,26 @@ MainView.prototype.swap = function (p1, p2) {
   
   this.puzzle.rows[p1.x].cells[p1.y].innerText = this.puzzle.rows[p2.x].cells[p2.y].innerText;
   this.puzzle.rows[p2.x].cells[p2.y].innerText = aux;
+  
+};
+
+MainView.prototype.addResultToLog = function (algorithm, movements, maxStackLength, initialState) {
+  
+  var cell;
+  this.logTable.insertRow(1);
+  
+  cell = this.logTable.rows[1].insertCell(0);
+  cell.innerHTML = algorithm;
+  
+  cell = this.logTable.rows[1].insertCell(1);
+  cell.innerHTML = movements;
+  
+  cell = this.logTable.rows[1].insertCell(2);
+  cell.innerHTML = maxStackLength;
+  
+  var stateStr = initialState.toString();
+  cell = this.logTable.rows[1].insertCell(3);
+  cell.innerHTML = '<button value="' + stateStr + '">Get this state</button>'
   
 };
 

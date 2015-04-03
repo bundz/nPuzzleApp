@@ -15,7 +15,6 @@ MainController.prototype.generatePuzzle = function () {
   this.model.generatePuzzle(this.view.sizeInput.value);
   this.view.showPuzzle(this.model.puzzle);
   this.addPieceClickEvents();
-  console.log(this.view.puzzle.rows);
   
 };
 
@@ -29,32 +28,35 @@ MainController.prototype.randomizePuzzle = function () {
 
 MainController.prototype.doSearch = function (ev) {
   
-  
   var result;
+  
+  console.log(this);
   
   switch (this.view.searchSelector.value) {
     
     case "bfs":
       result = this.model.breadthFirstSearch();
+      result.algorithm = "bfs";
       break;
     case "dfs":
       result = this.model.depthFirstSearch();
+      result.algorithm = "dfs";
       break;
     case "idfs":
       result = this.model.iterativeDepthFirst();
+      result.algorithm = "idfs";
     default:
       break;
-  }
-
+  }  
+  
   this.view.showResult(result);
+  this.addGetStateEvent();
       
 };
 
 
 MainController.prototype.pieceClicked = function (ev) {
   var cellPoint = getCellPoint(ev.target.innerText, this.model.puzzle.state.matrix);
-  
-  console.log(this.model);
   
   if(canSwap(cellPoint, this.model.puzzle.state.empty)) {
     this.view.swap(this.model.puzzle.state.empty, cellPoint);
@@ -73,6 +75,41 @@ MainController.prototype.addPieceClickEvents = function () {
       
     }
   }
+  
+};
+
+MainController.prototype.addGetStateEvent = function () {
+  
+  this.view.logTable.rows[1].cells[3].onclick = this.getStateClicked.bind(this);
+  
+};
+
+MainController.prototype.getStateClicked = function (ev) {
+  
+  var array = ev.target.value.split(',');
+  var value;
+  
+  for(var i = 0; i < this.model.puzzle.state.matrix.length; i++) {
+    
+    for(var j = 0; j < this.model.puzzle.state.matrix.length; j++) {
+      
+      value = array.shift();
+      
+      if(value == "null") {
+        this.model.puzzle.state.empty = { x: i, y: j };
+        value = "";
+      }
+      
+      this.model.puzzle.state.matrix[i][j] = value;
+      
+    }
+    
+  }
+  
+  
+  this.view.showPuzzle(this.model.puzzle);
+  this.addPieceClickEvents();
+  console.log(this);
   
 };
 
@@ -97,6 +134,5 @@ function getCellPoint (value, matrix) {
 function canSwap(p1, p2) {
   return ((Math.abs(p1.x - p2.x) == 1) + (Math.abs(p1.y - p2.y))) == 1
 }
-
 
 module.exports = MainController;

@@ -4,7 +4,7 @@ body {
   text-align: center;
 }
 
-table {
+#puzzle {
   margin: auto;
   background-color: green;    
   border-radius: 5px;
@@ -13,7 +13,7 @@ table {
   margin-bottom: 10px;
 }
 
-td {
+#puzzle td {
  background-color: white;
   border-radius: 5px;
   text-align: center;
@@ -21,4 +21,16 @@ td {
 
 #generateDiv {
  margin-bottom: 10px; 
+}
+
+#logTable {
+  margin: auto;  
+  margin-top: 10px;
+  border: 1px solid black;
+  border-collapse: collapse; 
+}
+
+#logTable td {
+  border: 1px solid black;
+  border-collapse: collapse; 
 }
