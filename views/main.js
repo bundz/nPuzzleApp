@@ -51,6 +51,8 @@ MainView.prototype.erasePuzzleRows = function () {
 
 MainView.prototype.showResult = function (obj) {
   
+  console.log(obj);
+  
   this.result = obj.result;
   this.result.push(obj.endState);
   
@@ -91,7 +93,7 @@ MainView.prototype.showResult = function (obj) {
   
   setTimeout(move.bind(this), 1000);
   
-  this.addResultToLog(obj.algorithm, obj.result.length, obj.maxStackLength, obj.initialState);
+  this.addResultToLog(obj.algorithm, obj.result.length - 1, obj.maxStackLength, obj.initialState);
 
 };
 

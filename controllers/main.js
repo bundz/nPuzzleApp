@@ -11,7 +11,7 @@ var MainController = function (view, model) {
 }
 
 MainController.prototype.generatePuzzle = function () {
-   
+  
   this.model.generatePuzzle(this.view.sizeInput.value);
   this.view.showPuzzle(this.model.puzzle);
   this.addPieceClickEvents();
@@ -26,15 +26,28 @@ MainController.prototype.randomizePuzzle = function () {
   
 };
 
+MainController.prototype.clonePuzzle = function () {
+   
+  this.model.puzzle.state.result = [];
+  this.view.showPuzzle(this.model.puzzle);
+  this.addPieceClickEvents();
+  
+};
+
+MainController.prototype.tryCopyStateFromView = function () {
+  
+  this.model.tryCopyState(this.view.puzzle.rows);
+  
+};
+
 MainController.prototype.doSearch = function (ev) {
   
-  var result;
-  
-  console.log(this);
+  var result; 
   
   switch (this.view.searchSelector.value) {
     
     case "bfs":
+      console.log(this.model);
       result = this.model.breadthFirstSearch();
       result.algorithm = "bfs";
       break;
@@ -45,6 +58,19 @@ MainController.prototype.doSearch = function (ev) {
     case "idfs":
       result = this.model.iterativeDepthFirst();
       result.algorithm = "idfs";
+      break;
+    case "h1":
+      result = this.model.aStar("h1");
+      result.algorithm = "A* (h1)"
+      break;
+    case "h2":
+      result = this.model.aStar("h2");
+      result.algorithm = "A* (h2)"
+      break;
+    case "h3":
+      result = this.model.aStar("h3");
+      result.algorithm = "A* (h3)"
+      break;
     default:
       break;
   }  
@@ -86,6 +112,8 @@ MainController.prototype.addGetStateEvent = function () {
 
 MainController.prototype.getStateClicked = function (ev) {
   
+  console.log(ev.target.value);
+  
   var array = ev.target.value.split(',');
   var value;
   
@@ -97,19 +125,17 @@ MainController.prototype.getStateClicked = function (ev) {
       
       if(value == "null") {
         this.model.puzzle.state.empty = { x: i, y: j };
-        value = "";
+        value = null;
       }
       
       this.model.puzzle.state.matrix[i][j] = value;
+      
       
     }
     
   }
   
-  
-  this.view.showPuzzle(this.model.puzzle);
-  this.addPieceClickEvents();
-  console.log(this);
+  this.clonePuzzle();
   
 };
 
